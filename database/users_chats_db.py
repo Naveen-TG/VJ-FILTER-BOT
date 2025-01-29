@@ -205,11 +205,12 @@ class Database:
         
     
     async def get_settings(self, id):
-        chat = await self.grp.find_one({'id':int(id)})
+        if id is None:
+            return default_setgs  # Return default settings if id is None
+        chat = await self.grp.find_one({'id': int(id)})
         if chat:
             return chat.get('settings', default_setgs)
         return default_setgs
-    
 
     async def disable_chat(self, chat, reason="No Reason"):
         chat_status=dict(
